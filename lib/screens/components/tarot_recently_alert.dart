@@ -16,7 +16,7 @@ class TabInfo {
 class TarotRecentlyAlert extends ConsumerWidget {
   TarotRecentlyAlert({super.key});
 
-  List<TabInfo> tabs = [];
+  List<TabInfo> tabs = <TabInfo>[];
 
   ///
   @override
@@ -46,7 +46,7 @@ class TarotRecentlyAlert extends ConsumerWidget {
           ),
         ),
         body: TabBarView(
-          children: tabs.map((tab) => tab.widget).toList(),
+          children: tabs.map((TabInfo tab) => tab.widget).toList(),
         ),
       ),
     );
@@ -54,12 +54,12 @@ class TarotRecentlyAlert extends ConsumerWidget {
 
   ///
   void makeTab() {
-    tabs = [];
+    tabs = <TabInfo>[];
 
-    for (var i = 0; i < 7; i++) {
-      final day = DateTime.now().add(Duration(days: i * -1));
+    for (int i = 0; i < 7; i++) {
+      final DateTime day = DateTime.now().add(Duration(days: i * -1));
 
-      final youbi = day.youbiStr.substring(0, 3);
+      final String youbi = day.youbiStr.substring(0, 3);
 
       tabs.add(
         TabInfo(

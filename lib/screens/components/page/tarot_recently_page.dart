@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../controllers/all_tarot/all_tarot.dart';
 import '../../../controllers/history/history.dart';
 import '../../../extensions/extensions.dart';
+import '../../../models/history_model.dart';
+import '../../../models/tarot_model.dart';
 import '../../parts/_tarot_dialog.dart';
 import '../tarot_alert.dart';
 
@@ -29,17 +31,20 @@ class _TarotRecentlyPageState extends ConsumerState<TarotRecentlyPage> {
   ///
   Widget displayRecentryTarot() {
     return ref.watch(historyProvider).when(
-          data: (value) {
+          data: (HistoryState value) {
             if (value.historyDateMap[widget.date.yyyymmdd] != null) {
-              final allTarotState = ref.watch(allTarotProvider);
-              final tarotMap = allTarotState.value?.tarotMap;
+              final AsyncValue<AllTarotState> allTarotState =
+                  ref.watch(allTarotProvider);
+              final Map<int, TarotModel>? tarotMap =
+                  allTarotState.value?.tarotMap;
 
               if (tarotMap?[value.historyDateMap[widget.date.yyyymmdd]] !=
                   null) {
-                var tarot =
+                final TarotModel? tarot =
                     tarotMap?[value.historyDateMap[widget.date.yyyymmdd]];
 
-                var history = value.historyDateModelMap[widget.date.yyyymmdd];
+                final HistoryModel? history =
+                    value.historyDateModelMap[widget.date.yyyymmdd];
 
                 int qt = 0;
                 String image = '';
@@ -56,13 +61,7 @@ class _TarotRecentlyPageState extends ConsumerState<TarotRecentlyPage> {
 
                 return SingleChildScrollView(
                   child: Column(
-                    children: [
-                      // Text(
-                      //     tarotMap?[value.historyDateMap[widget.date.yyyymmdd]]!
-                      //             .name ??
-                      //         ''),
-                      //
-
+                    children: <Widget>[
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
@@ -73,8 +72,7 @@ class _TarotRecentlyPageState extends ConsumerState<TarotRecentlyPage> {
                             decoration: BoxDecoration(
                               color: Colors.yellowAccent.withOpacity(0.3),
                             ),
-                            child:
-                                Text(DateTime.now().toString().split(' ')[0]),
+                            child: Text(widget.date.yyyymmdd),
                           ),
                           IconButton(
                             onPressed: () {
@@ -105,8 +103,7 @@ class _TarotRecentlyPageState extends ConsumerState<TarotRecentlyPage> {
                         child: Text(tarot.prof2),
                       ),
                       const Divider(color: Colors.indigo),
-
-                      if (history != null) ...[
+                      if (history != null) ...<Widget>[
                         Container(
                           alignment: Alignment.topLeft,
                           decoration: BoxDecoration(
@@ -116,7 +113,7 @@ class _TarotRecentlyPageState extends ConsumerState<TarotRecentlyPage> {
                             (history.reverse == '0') ? '正位置' : '逆位置',
                           ),
                         ),
-                        if (history.reverse == '0') ...[
+                        if (history.reverse == '0') ...<Widget>[
                           Container(
                             alignment: Alignment.topLeft,
                             padding: const EdgeInsets.symmetric(
@@ -139,7 +136,7 @@ class _TarotRecentlyPageState extends ConsumerState<TarotRecentlyPage> {
                               padding: const EdgeInsets.all(10),
                               child: Text(tarot.msg3J)),
                         ],
-                        if (history.reverse == '1') ...[
+                        if (history.reverse == '1') ...<Widget>[
                           Container(
                             alignment: Alignment.topLeft,
                             padding: const EdgeInsets.symmetric(

@@ -37,7 +37,7 @@ class History extends _$History {
     final List<HistoryModel> list = <HistoryModel>[];
     final Map<String, int> map = <String, int>{};
     final Map<int, List<String>> map2 = <int, List<String>>{};
-    Map<String, HistoryModel> map3 = {};
+    final Map<String, HistoryModel> map3 = <String, HistoryModel>{};
 
     // ignore: always_specify_types
     await client.post(path: APIPath.tarothistory).then((value) {
