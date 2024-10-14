@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../controllers/today_tarot/today_tarot.dart';
 import '../utility/utility.dart';
 import 'components/tarot_alert.dart';
+import 'components/tarot_recently_alert.dart';
 import 'parts/_tarot_dialog.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -41,26 +42,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         actions: <Widget>[
           IconButton(
             onPressed: () {
-              // TarotDialog(
-              //   context: context,
-              //   widget: TarotRecentlyAlert(),
-              // );
+              tarotDialog(context: context, widget: TarotRecentlyAlert());
             },
             icon: const Icon(Icons.pages_outlined),
           ),
-          // IconButton(
-          //   onPressed: () {
-          //     // TarotDialog(
-          //     //   context: context,
-          //     //   widget: TarotListAlert(),
-          //     // );
-          //   },
-          //   icon: const Icon(Icons.list),
-          // ),
-          //
-          //
-          //
-
           IconButton(
             onPressed: () {
               // Navigator.push(

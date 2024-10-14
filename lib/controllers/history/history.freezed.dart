@@ -19,6 +19,8 @@ mixin _$HistoryState {
   List<HistoryModel> get historyList => throw _privateConstructorUsedError;
   Map<String, int> get historyDateMap => throw _privateConstructorUsedError;
   Map<int, List<String>> get historyIdMap => throw _privateConstructorUsedError;
+  Map<String, HistoryModel> get historyDateModelMap =>
+      throw _privateConstructorUsedError;
 
   /// Create a copy of HistoryState
   /// with the given fields replaced by the non-null parameter values.
@@ -36,7 +38,8 @@ abstract class $HistoryStateCopyWith<$Res> {
   $Res call(
       {List<HistoryModel> historyList,
       Map<String, int> historyDateMap,
-      Map<int, List<String>> historyIdMap});
+      Map<int, List<String>> historyIdMap,
+      Map<String, HistoryModel> historyDateModelMap});
 }
 
 /// @nodoc
@@ -57,6 +60,7 @@ class _$HistoryStateCopyWithImpl<$Res, $Val extends HistoryState>
     Object? historyList = null,
     Object? historyDateMap = null,
     Object? historyIdMap = null,
+    Object? historyDateModelMap = null,
   }) {
     return _then(_value.copyWith(
       historyList: null == historyList
@@ -71,6 +75,10 @@ class _$HistoryStateCopyWithImpl<$Res, $Val extends HistoryState>
           ? _value.historyIdMap
           : historyIdMap // ignore: cast_nullable_to_non_nullable
               as Map<int, List<String>>,
+      historyDateModelMap: null == historyDateModelMap
+          ? _value.historyDateModelMap
+          : historyDateModelMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, HistoryModel>,
     ) as $Val);
   }
 }
@@ -86,7 +94,8 @@ abstract class _$$HistoryStateImplCopyWith<$Res>
   $Res call(
       {List<HistoryModel> historyList,
       Map<String, int> historyDateMap,
-      Map<int, List<String>> historyIdMap});
+      Map<int, List<String>> historyIdMap,
+      Map<String, HistoryModel> historyDateModelMap});
 }
 
 /// @nodoc
@@ -105,6 +114,7 @@ class __$$HistoryStateImplCopyWithImpl<$Res>
     Object? historyList = null,
     Object? historyDateMap = null,
     Object? historyIdMap = null,
+    Object? historyDateModelMap = null,
   }) {
     return _then(_$HistoryStateImpl(
       historyList: null == historyList
@@ -119,6 +129,10 @@ class __$$HistoryStateImplCopyWithImpl<$Res>
           ? _value._historyIdMap
           : historyIdMap // ignore: cast_nullable_to_non_nullable
               as Map<int, List<String>>,
+      historyDateModelMap: null == historyDateModelMap
+          ? _value._historyDateModelMap
+          : historyDateModelMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, HistoryModel>,
     ));
   }
 }
@@ -129,10 +143,13 @@ class _$HistoryStateImpl implements _HistoryState {
   const _$HistoryStateImpl(
       {final List<HistoryModel> historyList = const <HistoryModel>[],
       final Map<String, int> historyDateMap = const <String, int>{},
-      final Map<int, List<String>> historyIdMap = const <int, List<String>>{}})
+      final Map<int, List<String>> historyIdMap = const <int, List<String>>{},
+      final Map<String, HistoryModel> historyDateModelMap =
+          const <String, HistoryModel>{}})
       : _historyList = historyList,
         _historyDateMap = historyDateMap,
-        _historyIdMap = historyIdMap;
+        _historyIdMap = historyIdMap,
+        _historyDateModelMap = historyDateModelMap;
 
   final List<HistoryModel> _historyList;
   @override
@@ -161,9 +178,19 @@ class _$HistoryStateImpl implements _HistoryState {
     return EqualUnmodifiableMapView(_historyIdMap);
   }
 
+  final Map<String, HistoryModel> _historyDateModelMap;
+  @override
+  @JsonKey()
+  Map<String, HistoryModel> get historyDateModelMap {
+    if (_historyDateModelMap is EqualUnmodifiableMapView)
+      return _historyDateModelMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_historyDateModelMap);
+  }
+
   @override
   String toString() {
-    return 'HistoryState(historyList: $historyList, historyDateMap: $historyDateMap, historyIdMap: $historyIdMap)';
+    return 'HistoryState(historyList: $historyList, historyDateMap: $historyDateMap, historyIdMap: $historyIdMap, historyDateModelMap: $historyDateModelMap)';
   }
 
   @override
@@ -176,7 +203,9 @@ class _$HistoryStateImpl implements _HistoryState {
             const DeepCollectionEquality()
                 .equals(other._historyDateMap, _historyDateMap) &&
             const DeepCollectionEquality()
-                .equals(other._historyIdMap, _historyIdMap));
+                .equals(other._historyIdMap, _historyIdMap) &&
+            const DeepCollectionEquality()
+                .equals(other._historyDateModelMap, _historyDateModelMap));
   }
 
   @override
@@ -184,7 +213,8 @@ class _$HistoryStateImpl implements _HistoryState {
       runtimeType,
       const DeepCollectionEquality().hash(_historyList),
       const DeepCollectionEquality().hash(_historyDateMap),
-      const DeepCollectionEquality().hash(_historyIdMap));
+      const DeepCollectionEquality().hash(_historyIdMap),
+      const DeepCollectionEquality().hash(_historyDateModelMap));
 
   /// Create a copy of HistoryState
   /// with the given fields replaced by the non-null parameter values.
@@ -197,9 +227,11 @@ class _$HistoryStateImpl implements _HistoryState {
 
 abstract class _HistoryState implements HistoryState {
   const factory _HistoryState(
-      {final List<HistoryModel> historyList,
-      final Map<String, int> historyDateMap,
-      final Map<int, List<String>> historyIdMap}) = _$HistoryStateImpl;
+          {final List<HistoryModel> historyList,
+          final Map<String, int> historyDateMap,
+          final Map<int, List<String>> historyIdMap,
+          final Map<String, HistoryModel> historyDateModelMap}) =
+      _$HistoryStateImpl;
 
   @override
   List<HistoryModel> get historyList;
@@ -207,6 +239,8 @@ abstract class _HistoryState implements HistoryState {
   Map<String, int> get historyDateMap;
   @override
   Map<int, List<String>> get historyIdMap;
+  @override
+  Map<String, HistoryModel> get historyDateModelMap;
 
   /// Create a copy of HistoryState
   /// with the given fields replaced by the non-null parameter values.

@@ -15,7 +15,7 @@ Future<void> tarotDialog({
     context: context,
     barrierColor: clearBarrierColor
         ? Colors.transparent
-        : Colors.blueGrey.withOpacity(0.3),
+        : Colors.blueGrey.withOpacity(0.6),
     builder: (_) {
       return Container(
         padding: EdgeInsets.only(

@@ -6,7 +6,7 @@ part of 'rate.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$rateHash() => r'90d51b82c142e281aaacefea08f8b23e5f4475c0';
+String _$rateHash() => r'85aa6858e711ddd57f84967fb464e7439c573bc5';
 
 /// See also [Rate].
 @ProviderFor(Rate)

@@ -6,7 +6,7 @@ part of 'today_tarot.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$todayTarotHash() => r'9d38e969f06815e7979870bc9da5a66baaecc23b';
+String _$todayTarotHash() => r'f03764e627e74be4fcfc157a1eb9142fce95f74f';
 
 /// See also [TodayTarot].
 @ProviderFor(TodayTarot)
