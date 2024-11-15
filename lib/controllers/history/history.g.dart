@@ -6,7 +6,7 @@ part of 'history.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$historyHash() => r'33cc4ed626132bf0b474c82cbc298d759f616398';
+String _$historyHash() => r'a8005ee1711bf850598c657919b83cdb597b0be0';
 
 /// See also [History].
 @ProviderFor(History)

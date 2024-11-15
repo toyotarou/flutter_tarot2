@@ -21,6 +21,8 @@ mixin _$HistoryState {
   Map<int, List<String>> get historyIdMap => throw _privateConstructorUsedError;
   Map<String, HistoryModel> get historyDateModelMap =>
       throw _privateConstructorUsedError;
+  Map<String, List<HistoryModel>> get historyRankingMap =>
+      throw _privateConstructorUsedError;
 
   /// Create a copy of HistoryState
   /// with the given fields replaced by the non-null parameter values.
@@ -39,7 +41,8 @@ abstract class $HistoryStateCopyWith<$Res> {
       {List<HistoryModel> historyList,
       Map<String, int> historyDateMap,
       Map<int, List<String>> historyIdMap,
-      Map<String, HistoryModel> historyDateModelMap});
+      Map<String, HistoryModel> historyDateModelMap,
+      Map<String, List<HistoryModel>> historyRankingMap});
 }
 
 /// @nodoc
@@ -61,6 +64,7 @@ class _$HistoryStateCopyWithImpl<$Res, $Val extends HistoryState>
     Object? historyDateMap = null,
     Object? historyIdMap = null,
     Object? historyDateModelMap = null,
+    Object? historyRankingMap = null,
   }) {
     return _then(_value.copyWith(
       historyList: null == historyList
@@ -79,6 +83,10 @@ class _$HistoryStateCopyWithImpl<$Res, $Val extends HistoryState>
           ? _value.historyDateModelMap
           : historyDateModelMap // ignore: cast_nullable_to_non_nullable
               as Map<String, HistoryModel>,
+      historyRankingMap: null == historyRankingMap
+          ? _value.historyRankingMap
+          : historyRankingMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<HistoryModel>>,
     ) as $Val);
   }
 }
@@ -95,7 +103,8 @@ abstract class _$$HistoryStateImplCopyWith<$Res>
       {List<HistoryModel> historyList,
       Map<String, int> historyDateMap,
       Map<int, List<String>> historyIdMap,
-      Map<String, HistoryModel> historyDateModelMap});
+      Map<String, HistoryModel> historyDateModelMap,
+      Map<String, List<HistoryModel>> historyRankingMap});
 }
 
 /// @nodoc
@@ -115,6 +124,7 @@ class __$$HistoryStateImplCopyWithImpl<$Res>
     Object? historyDateMap = null,
     Object? historyIdMap = null,
     Object? historyDateModelMap = null,
+    Object? historyRankingMap = null,
   }) {
     return _then(_$HistoryStateImpl(
       historyList: null == historyList
@@ -133,6 +143,10 @@ class __$$HistoryStateImplCopyWithImpl<$Res>
           ? _value._historyDateModelMap
           : historyDateModelMap // ignore: cast_nullable_to_non_nullable
               as Map<String, HistoryModel>,
+      historyRankingMap: null == historyRankingMap
+          ? _value._historyRankingMap
+          : historyRankingMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<HistoryModel>>,
     ));
   }
 }
@@ -145,11 +159,14 @@ class _$HistoryStateImpl implements _HistoryState {
       final Map<String, int> historyDateMap = const <String, int>{},
       final Map<int, List<String>> historyIdMap = const <int, List<String>>{},
       final Map<String, HistoryModel> historyDateModelMap =
-          const <String, HistoryModel>{}})
+          const <String, HistoryModel>{},
+      final Map<String, List<HistoryModel>> historyRankingMap =
+          const <String, List<HistoryModel>>{}})
       : _historyList = historyList,
         _historyDateMap = historyDateMap,
         _historyIdMap = historyIdMap,
-        _historyDateModelMap = historyDateModelMap;
+        _historyDateModelMap = historyDateModelMap,
+        _historyRankingMap = historyRankingMap;
 
   final List<HistoryModel> _historyList;
   @override
@@ -188,9 +205,19 @@ class _$HistoryStateImpl implements _HistoryState {
     return EqualUnmodifiableMapView(_historyDateModelMap);
   }
 
+  final Map<String, List<HistoryModel>> _historyRankingMap;
+  @override
+  @JsonKey()
+  Map<String, List<HistoryModel>> get historyRankingMap {
+    if (_historyRankingMap is EqualUnmodifiableMapView)
+      return _historyRankingMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_historyRankingMap);
+  }
+
   @override
   String toString() {
-    return 'HistoryState(historyList: $historyList, historyDateMap: $historyDateMap, historyIdMap: $historyIdMap, historyDateModelMap: $historyDateModelMap)';
+    return 'HistoryState(historyList: $historyList, historyDateMap: $historyDateMap, historyIdMap: $historyIdMap, historyDateModelMap: $historyDateModelMap, historyRankingMap: $historyRankingMap)';
   }
 
   @override
@@ -205,7 +232,9 @@ class _$HistoryStateImpl implements _HistoryState {
             const DeepCollectionEquality()
                 .equals(other._historyIdMap, _historyIdMap) &&
             const DeepCollectionEquality()
-                .equals(other._historyDateModelMap, _historyDateModelMap));
+                .equals(other._historyDateModelMap, _historyDateModelMap) &&
+            const DeepCollectionEquality()
+                .equals(other._historyRankingMap, _historyRankingMap));
   }
 
   @override
@@ -214,7 +243,8 @@ class _$HistoryStateImpl implements _HistoryState {
       const DeepCollectionEquality().hash(_historyList),
       const DeepCollectionEquality().hash(_historyDateMap),
       const DeepCollectionEquality().hash(_historyIdMap),
-      const DeepCollectionEquality().hash(_historyDateModelMap));
+      const DeepCollectionEquality().hash(_historyDateModelMap),
+      const DeepCollectionEquality().hash(_historyRankingMap));
 
   /// Create a copy of HistoryState
   /// with the given fields replaced by the non-null parameter values.
@@ -230,7 +260,8 @@ abstract class _HistoryState implements HistoryState {
           {final List<HistoryModel> historyList,
           final Map<String, int> historyDateMap,
           final Map<int, List<String>> historyIdMap,
-          final Map<String, HistoryModel> historyDateModelMap}) =
+          final Map<String, HistoryModel> historyDateModelMap,
+          final Map<String, List<HistoryModel>> historyRankingMap}) =
       _$HistoryStateImpl;
 
   @override
@@ -241,6 +272,8 @@ abstract class _HistoryState implements HistoryState {
   Map<int, List<String>> get historyIdMap;
   @override
   Map<String, HistoryModel> get historyDateModelMap;
+  @override
+  Map<String, List<HistoryModel>> get historyRankingMap;
 
   /// Create a copy of HistoryState
   /// with the given fields replaced by the non-null parameter values.

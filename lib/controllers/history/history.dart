@@ -17,8 +17,8 @@ class HistoryState with _$HistoryState {
     @Default(<HistoryModel>[]) List<HistoryModel> historyList,
     @Default(<String, int>{}) Map<String, int> historyDateMap,
     @Default(<int, List<String>>{}) Map<int, List<String>> historyIdMap,
-    @Default(<String, HistoryModel>{})
-    Map<String, HistoryModel> historyDateModelMap,
+    @Default(<String, HistoryModel>{}) Map<String, HistoryModel> historyDateModelMap,
+    @Default(<String, List<HistoryModel>>{}) Map<String, List<HistoryModel>> historyRankingMap,
   }) = _HistoryState;
 }
 
@@ -38,6 +38,7 @@ class History extends _$History {
     final Map<String, int> map = <String, int>{};
     final Map<int, List<String>> map2 = <int, List<String>>{};
     final Map<String, HistoryModel> map3 = <String, HistoryModel>{};
+    final Map<String, List<HistoryModel>> map4 = <String, List<HistoryModel>>{};
 
     // ignore: always_specify_types
     await client.post(path: APIPath.tarothistory).then((value) {
@@ -54,6 +55,8 @@ class History extends _$History {
         map2[val.id] = <String>[];
 
         map3['${val.year}-${val.month}-${val.day}'] = val;
+
+        map4['${val.id}-${val.reverse}'] = <HistoryModel>[];
       }
 
       // ignore: avoid_dynamic_calls
@@ -63,6 +66,8 @@ class History extends _$History {
             HistoryModel.fromJson(value['data'][i] as Map<String, dynamic>);
 
         map2[val.id]?.add('${val.year}-${val.month}-${val.day}');
+
+        map4['${val.id}-${val.reverse}']?.add(val);
       }
       // ignore: always_specify_types
     }).catchError((error, _) {
@@ -70,10 +75,6 @@ class History extends _$History {
     });
 
     return HistoryState(
-      historyList: list,
-      historyDateMap: map,
-      historyIdMap: map2,
-      historyDateModelMap: map3,
-    );
+        historyList: list, historyDateMap: map, historyIdMap: map2, historyDateModelMap: map3, historyRankingMap: map4);
   }
 }

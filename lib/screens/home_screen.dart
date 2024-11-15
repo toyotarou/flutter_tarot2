@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../controllers/today_tarot/today_tarot.dart';
 import '../utility/utility.dart';
 import 'components/tarot_alert.dart';
+import 'components/tarot_ranking_alert.dart';
 import 'components/tarot_recently_alert.dart';
 import 'parts/_tarot_dialog.dart';
 
@@ -100,13 +101,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           children: <Widget>[
                             Container(
                               margin: const EdgeInsets.only(top: 10, right: 10),
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 30),
+                              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 30),
                               decoration: BoxDecoration(
                                 color: Colors.yellowAccent.withOpacity(0.3),
                               ),
-                              child:
-                                  Text(DateTime.now().toString().split(' ')[0]),
+                              child: Text(DateTime.now().toString().split(' ')[0]),
                             ),
                             IconButton(
                               onPressed: () {
@@ -124,34 +123,23 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           value.todayTarot!.name,
                           style: const TextStyle(fontSize: 30),
                         ),
-                        if (image != '')
-                          RotatedBox(
-                            quarterTurns: qt,
-                            child: Image.network(image),
-                          ),
+                        if (image != '') RotatedBox(quarterTurns: qt, child: Image.network(image)),
                         const SizedBox(height: 10),
                         Container(
                           alignment: Alignment.topLeft,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 5, horizontal: 10),
+                          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                           child: Text(value.todayTarot!.prof2),
                         ),
                         const Divider(color: Colors.indigo),
                         Container(
                           alignment: Alignment.topLeft,
-                          decoration: BoxDecoration(
-                              color: Colors.greenAccent.withOpacity(0.3)),
+                          decoration: BoxDecoration(color: Colors.greenAccent.withOpacity(0.3)),
                           padding: const EdgeInsets.only(left: 10),
-                          child: Text(
-                            (value.todayTarot!.justReverse == 'just')
-                                ? '正位置'
-                                : '逆位置',
-                          ),
+                          child: Text((value.todayTarot!.justReverse == 'just') ? '正位置' : '逆位置'),
                         ),
                         Container(
                           alignment: Alignment.topLeft,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 5, horizontal: 10),
+                          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                           child: Text(
                             value.todayTarot!.word,
                             style: const TextStyle(color: Colors.yellowAccent),
@@ -162,19 +150,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           alignment: Alignment.topLeft,
                           child: Text(value.todayTarot!.msg),
                         ),
-                        Container(
-                            padding: const EdgeInsets.all(10),
-                            child: Text(value.todayTarot!.msg2)),
-                        Container(
-                            padding: const EdgeInsets.all(10),
-                            child: Text(value.todayTarot!.msg3)),
+                        Container(padding: const EdgeInsets.all(10), child: Text(value.todayTarot!.msg2)),
+                        Container(padding: const EdgeInsets.all(10), child: Text(value.todayTarot!.msg3)),
                       ],
                     ),
                   )
                 : Container();
           },
-          error: (Object error, StackTrace stackTrace) =>
-              const Center(child: CircularProgressIndicator()),
+          error: (Object error, StackTrace stackTrace) => const Center(child: CircularProgressIndicator()),
           loading: () => const Center(child: CircularProgressIndicator()),
         );
   }
