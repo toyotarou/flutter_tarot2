@@ -21,10 +21,10 @@ class TodayTarot extends _$TodayTarot {
 
   ///
   @override
-  Future<TodayTarotState> build() async => getTodayTarot();
+  TodayTarotState build() => TodayTarotState();
 
   ///
-  Future<TodayTarotState> getTodayTarot() async {
+  Future<void> getTodayTarot() async {
     final HttpClient client = ref.read(httpClientProvider);
 
     TodayTarotModel model = TodayTarotModel(
@@ -50,12 +50,12 @@ class TodayTarot extends _$TodayTarot {
 
       model = val;
 
+      state = state.copyWith(todayTarot: model);
+
       // ignore: always_specify_types
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });
-
-    return TodayTarotState(todayTarot: model);
   }
 
   ///

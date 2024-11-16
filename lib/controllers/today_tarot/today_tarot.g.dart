@@ -6,12 +6,12 @@ part of 'today_tarot.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$todayTarotHash() => r'f03764e627e74be4fcfc157a1eb9142fce95f74f';
+String _$todayTarotHash() => r'93165e36c7990f25b1e93be9a97cd8bb84e6402d';
 
 /// See also [TodayTarot].
 @ProviderFor(TodayTarot)
 final todayTarotProvider =
-    AsyncNotifierProvider<TodayTarot, TodayTarotState>.internal(
+    NotifierProvider<TodayTarot, TodayTarotState>.internal(
   TodayTarot.new,
   name: r'todayTarotProvider',
   debugGetCreateSourceHash:
@@ -20,6 +20,6 @@ final todayTarotProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$TodayTarot = AsyncNotifier<TodayTarotState>;
+typedef _$TodayTarot = Notifier<TodayTarotState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

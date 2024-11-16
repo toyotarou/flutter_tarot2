@@ -19,6 +19,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   ///
   @override
+  void initState() {
+    super.initState();
+
+    ref.read(todayTarotProvider.notifier).getTodayTarot();
+  }
+
+  ///
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -78,144 +86,134 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   ///
   Widget displayTodayTarot() {
-    return ref.watch(todayTarotProvider).when(
-          data: (TodayTarotState value) {
-            int qt = 0;
-            String image = '';
+    final todayTarot = ref.watch(todayTarotProvider.select((value) => value.todayTarot));
 
-            int feeling = 0;
+    if (todayTarot == null) {
+      return Container();
+    }
 
-            if (value.todayTarot != null) {
-              switch (value.todayTarot?.justReverse) {
-                case 'just':
-                  if (value.todayTarot?.feelingJust != null) {
-                    feeling = value.todayTarot!.feelingJust;
-                  }
-                case 'reverse':
-                  if (value.todayTarot?.feelingReverse != null) {
-                    feeling = value.todayTarot!.feelingReverse;
-                  }
-              }
+    int qt = 0;
+    String image = '';
 
-              qt = (value.todayTarot!.justReverse == 'just') ? 0 : 2;
+    int feeling = 0;
 
-              image = (value.todayTarot!.image == '')
-                  ? ''
-                  : 'http://toyohide.work/BrainLog/tarotcards/${value.todayTarot!.image}.jpg';
-            }
+    switch (todayTarot.justReverse) {
+      case 'just':
+        feeling = todayTarot.feelingJust;
+      case 'reverse':
+        feeling = todayTarot.feelingReverse;
+    }
 
-            return (value.todayTarot != null)
-                ? SingleChildScrollView(
-                    child: Column(
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Container(
-                              margin: const EdgeInsets.only(top: 10, right: 10),
-                              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 30),
-                              decoration: BoxDecoration(
-                                color: Colors.yellowAccent.withOpacity(0.3),
-                              ),
-                              child: Text(DateTime.now().toString().split(' ')[0]),
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                tarotDialog(
-                                  context: context,
-                                  widget: TarotAlert(id: value.todayTarot!.id),
-                                );
-                              },
-                              icon: const Icon(Icons.info_outline),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          value.todayTarot!.name,
-                          style: const TextStyle(fontSize: 30),
-                        ),
-                        Stack(
-                          children: <Widget>[
-                            Positioned(
-                              right: 0,
-                              top: 0,
-                              child: getFeelingIcon(feeling: feeling),
-                            ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: <Widget>[
-                                Expanded(child: Container()),
-                                if (image != '') RotatedBox(quarterTurns: qt, child: Image.network(image)),
-                                Expanded(
-                                    child: Column(
-                                  children: <Widget>[
-                                    OutlinedButton(
-                                      onPressed: () {
-                                        ref.read(todayTarotProvider.notifier).updateTarotFeeling(
-                                          uploadData: <String, dynamic>{
-                                            'id': value.todayTarot!.id,
-                                            'just_reverse': value.todayTarot!.justReverse,
-                                            'feeling': 9,
-                                          },
-                                        );
-                                      },
-                                      child: const Icon(Icons.circle_outlined),
-                                    ),
-                                    OutlinedButton(
-                                      onPressed: () {
-                                        ref.read(todayTarotProvider.notifier).updateTarotFeeling(
-                                          uploadData: <String, dynamic>{
-                                            'id': value.todayTarot!.id,
-                                            'just_reverse': value.todayTarot!.justReverse,
-                                            'feeling': 1,
-                                          },
-                                        );
-                                      },
-                                      child: const Icon(Icons.close),
-                                    ),
-                                  ],
-                                )),
-                              ],
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 10),
-                        Container(
-                          alignment: Alignment.topLeft,
-                          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                          child: Text(value.todayTarot!.prof2),
-                        ),
-                        const Divider(color: Colors.indigo),
-                        Container(
-                          alignment: Alignment.topLeft,
-                          decoration: BoxDecoration(color: Colors.greenAccent.withOpacity(0.3)),
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Text((value.todayTarot!.justReverse == 'just') ? '正位置' : '逆位置'),
-                        ),
-                        Container(
-                          alignment: Alignment.topLeft,
-                          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                          child: Text(
-                            value.todayTarot!.word,
-                            style: const TextStyle(color: Colors.yellowAccent),
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.all(10),
-                          alignment: Alignment.topLeft,
-                          child: Text(value.todayTarot!.msg),
-                        ),
-                        Container(padding: const EdgeInsets.all(10), child: Text(value.todayTarot!.msg2)),
-                        Container(padding: const EdgeInsets.all(10), child: Text(value.todayTarot!.msg3)),
-                      ],
-                    ),
-                  )
-                : Container();
-          },
-          error: (Object error, StackTrace stackTrace) => const Center(child: CircularProgressIndicator()),
-          loading: () => const Center(child: CircularProgressIndicator()),
-        );
+    qt = (todayTarot.justReverse == 'just') ? 0 : 2;
+
+    image = (todayTarot.image == '') ? '' : 'http://toyohide.work/BrainLog/tarotcards/${todayTarot.image}.jpg';
+
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Container(
+                margin: const EdgeInsets.only(top: 10, right: 10),
+                padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 30),
+                decoration: BoxDecoration(
+                  color: Colors.yellowAccent.withOpacity(0.3),
+                ),
+                child: Text(DateTime.now().toString().split(' ')[0]),
+              ),
+              IconButton(
+                onPressed: () {
+                  tarotDialog(
+                    context: context,
+                    widget: TarotAlert(id: todayTarot.id),
+                  );
+                },
+                icon: const Icon(Icons.info_outline),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Text(
+            todayTarot.name,
+            style: const TextStyle(fontSize: 30),
+          ),
+          Stack(
+            children: <Widget>[
+              Positioned(
+                right: 0,
+                top: 0,
+                child: getFeelingIcon(feeling: feeling),
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  Expanded(child: Container()),
+                  if (image != '') RotatedBox(quarterTurns: qt, child: Image.network(image)),
+                  Expanded(
+                      child: Column(
+                    children: <Widget>[
+                      OutlinedButton(
+                        onPressed: () {
+                          ref.read(todayTarotProvider.notifier).updateTarotFeeling(
+                            uploadData: <String, dynamic>{
+                              'id': todayTarot.id,
+                              'just_reverse': todayTarot.justReverse,
+                              'feeling': 9,
+                            },
+                          );
+                        },
+                        child: const Icon(Icons.circle_outlined),
+                      ),
+                      OutlinedButton(
+                        onPressed: () {
+                          ref.read(todayTarotProvider.notifier).updateTarotFeeling(
+                            uploadData: <String, dynamic>{
+                              'id': todayTarot.id,
+                              'just_reverse': todayTarot.justReverse,
+                              'feeling': 1,
+                            },
+                          );
+                        },
+                        child: const Icon(Icons.close),
+                      ),
+                    ],
+                  )),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Container(
+            alignment: Alignment.topLeft,
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+            child: Text(todayTarot.prof2),
+          ),
+          const Divider(color: Colors.indigo),
+          Container(
+            alignment: Alignment.topLeft,
+            decoration: BoxDecoration(color: Colors.greenAccent.withOpacity(0.3)),
+            padding: const EdgeInsets.only(left: 10),
+            child: Text((todayTarot.justReverse == 'just') ? '正位置' : '逆位置'),
+          ),
+          Container(
+            alignment: Alignment.topLeft,
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+            child: Text(
+              todayTarot.word,
+              style: const TextStyle(color: Colors.yellowAccent),
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.all(10),
+            alignment: Alignment.topLeft,
+            child: Text(todayTarot.msg),
+          ),
+          Container(padding: const EdgeInsets.all(10), child: Text(todayTarot.msg2)),
+          Container(padding: const EdgeInsets.all(10), child: Text(todayTarot.msg3)),
+        ],
+      ),
+    );
   }
 
   ///
