@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../controllers/today_tarot/today_tarot.dart';
 import '../utility/utility.dart';
 import 'components/tarot_alert.dart';
-import 'components/tarot_ranking_alert.dart';
 import 'components/tarot_recently_alert.dart';
 import 'parts/_tarot_dialog.dart';
 
@@ -84,7 +83,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             int qt = 0;
             String image = '';
 
+            int feeling = 0;
+
             if (value.todayTarot != null) {
+              switch (value.todayTarot?.justReverse) {
+                case 'just':
+                  if (value.todayTarot?.feelingJust != null) {
+                    feeling = value.todayTarot!.feelingJust;
+                  }
+                case 'reverse':
+                  if (value.todayTarot?.feelingReverse != null) {
+                    feeling = value.todayTarot!.feelingReverse;
+                  }
+              }
+
               qt = (value.todayTarot!.justReverse == 'just') ? 0 : 2;
 
               image = (value.todayTarot!.image == '')
@@ -123,7 +135,51 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           value.todayTarot!.name,
                           style: const TextStyle(fontSize: 30),
                         ),
-                        if (image != '') RotatedBox(quarterTurns: qt, child: Image.network(image)),
+                        Stack(
+                          children: <Widget>[
+                            Positioned(
+                              right: 0,
+                              top: 0,
+                              child: getFeelingIcon(feeling: feeling),
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: <Widget>[
+                                Expanded(child: Container()),
+                                if (image != '') RotatedBox(quarterTurns: qt, child: Image.network(image)),
+                                Expanded(
+                                    child: Column(
+                                  children: <Widget>[
+                                    OutlinedButton(
+                                      onPressed: () {
+                                        ref.read(todayTarotProvider.notifier).updateTarotFeeling(
+                                          uploadData: <String, dynamic>{
+                                            'id': value.todayTarot!.id,
+                                            'just_reverse': value.todayTarot!.justReverse,
+                                            'feeling': 9,
+                                          },
+                                        );
+                                      },
+                                      child: const Icon(Icons.circle_outlined),
+                                    ),
+                                    OutlinedButton(
+                                      onPressed: () {
+                                        ref.read(todayTarotProvider.notifier).updateTarotFeeling(
+                                          uploadData: <String, dynamic>{
+                                            'id': value.todayTarot!.id,
+                                            'just_reverse': value.todayTarot!.justReverse,
+                                            'feeling': 1,
+                                          },
+                                        );
+                                      },
+                                      child: const Icon(Icons.close),
+                                    ),
+                                  ],
+                                )),
+                              ],
+                            ),
+                          ],
+                        ),
                         const SizedBox(height: 10),
                         Container(
                           alignment: Alignment.topLeft,
@@ -160,5 +216,25 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           error: (Object error, StackTrace stackTrace) => const Center(child: CircularProgressIndicator()),
           loading: () => const Center(child: CircularProgressIndicator()),
         );
+  }
+
+  ///
+  Widget getFeelingIcon({required int feeling}) {
+    switch (feeling) {
+      case 9:
+        return Icon(
+          Icons.circle_outlined,
+          color: Colors.greenAccent.withOpacity(0.4),
+          size: 100,
+        );
+      case 1:
+        return Icon(
+          Icons.close,
+          color: Colors.redAccent.withOpacity(0.4),
+          size: 100,
+        );
+      default:
+        return Container();
+    }
   }
 }

@@ -12,10 +12,11 @@ class TodayTarotModel {
     required this.msg,
     required this.msg2,
     required this.msg3,
+    required this.feelingJust,
+    required this.feelingReverse,
   });
 
-  factory TodayTarotModel.fromJson(Map<String, dynamic> json) =>
-      TodayTarotModel(
+  factory TodayTarotModel.fromJson(Map<String, dynamic> json) => TodayTarotModel(
         id: json['id'].toString().toInt(),
         name: json['name'].toString(),
         prof1: json['prof1'].toString(),
@@ -26,6 +27,8 @@ class TodayTarotModel {
         msg: json['msg'].toString(),
         msg2: json['msg2'].toString(),
         msg3: json['msg3'].toString(),
+        feelingJust: (json['feeling_just'] != null) ? json['feeling_just'].toString().toInt() : 0,
+        feelingReverse: (json['feeling_reverse'] != null) ? json['feeling_reverse'].toString().toInt() : 0,
       );
   int id;
   String name;
@@ -37,6 +40,8 @@ class TodayTarotModel {
   String msg;
   String msg2;
   String msg3;
+  int feelingJust;
+  int feelingReverse;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'id': id,
@@ -49,5 +54,7 @@ class TodayTarotModel {
         'msg': msg,
         'msg2': msg2,
         'msg3': msg3,
+        'feeling_just': feelingJust,
+        'feeling_reverse': feelingReverse,
       };
 }

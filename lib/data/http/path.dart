@@ -1,4 +1,10 @@
-enum APIPath { getAllTarot, tarothistory, getCategoryRate, tarotcard }
+enum APIPath {
+  getAllTarot,
+  tarothistory,
+  getCategoryRate,
+  tarotcard,
+  updateTarotFeeling,
+}
 
 extension APIPathExtension on APIPath {
   String? get value {
@@ -11,6 +17,8 @@ extension APIPathExtension on APIPath {
         return 'getCategoryRate';
       case APIPath.tarotcard:
         return 'tarotcard';
+      case APIPath.updateTarotFeeling:
+        return 'updateTarotFeeling';
     }
   }
 }
