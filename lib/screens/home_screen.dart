@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../controllers/today_tarot/today_tarot.dart';
+import '../models/today_tarot_model.dart';
 import '../utility/utility.dart';
 import 'components/tarot_alert.dart';
 import 'components/tarot_recently_alert.dart';
@@ -86,7 +87,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   ///
   Widget displayTodayTarot() {
-    final todayTarot = ref.watch(todayTarotProvider.select((value) => value.todayTarot));
+    final TodayTarotModel? todayTarot =
+        ref.watch(todayTarotProvider.select((TodayTarotState value) => value.todayTarot));
 
     if (todayTarot == null) {
       return Container();
@@ -110,7 +112,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     return SingleChildScrollView(
       child: Column(
-        children: [
+        children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[

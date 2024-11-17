@@ -21,7 +21,7 @@ class TodayTarot extends _$TodayTarot {
 
   ///
   @override
-  TodayTarotState build() => TodayTarotState();
+  TodayTarotState build() => const TodayTarotState();
 
   ///
   Future<void> getTodayTarot() async {
