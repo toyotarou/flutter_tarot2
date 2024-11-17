@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../controllers/all_tarot/all_tarot.dart';
 import '../controllers/today_tarot/today_tarot.dart';
+import '../models/tarot_model.dart';
 import '../models/today_tarot_model.dart';
 import '../utility/utility.dart';
+import 'components/parts/drawer_card.dart';
 import 'components/tarot_alert.dart';
+import 'components/tarot_ranking_alert.dart';
 import 'components/tarot_recently_alert.dart';
 import 'parts/_tarot_dialog.dart';
 
@@ -50,27 +54,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ),
         actions: <Widget>[
           IconButton(
-            onPressed: () {
-              tarotDialog(context: context, widget: TarotRecentlyAlert());
-            },
+            onPressed: () => tarotDialog(context: context, widget: TarotRecentlyAlert()),
             icon: const Icon(Icons.pages_outlined),
           ),
           IconButton(
-            onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => TarotHistoryScreen()),
-              // );
-            },
-            icon: const Icon(Icons.calendar_today),
-          ),
-          IconButton(
-            onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => TarotRankingScreen()),
-              // );
-            },
+            onPressed: () => tarotDialog(context: context, widget: const TarotRankingAlert()),
             icon: const Icon(Icons.trending_down_outlined),
           ),
         ],
@@ -82,6 +70,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           SafeArea(child: displayTodayTarot()),
         ],
       ),
+      drawer: dispDrawer(context),
     );
   }
 
@@ -119,34 +108,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               Container(
                 margin: const EdgeInsets.only(top: 10, right: 10),
                 padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 30),
-                decoration: BoxDecoration(
-                  color: Colors.yellowAccent.withOpacity(0.3),
-                ),
+                decoration: BoxDecoration(color: Colors.yellowAccent.withOpacity(0.3)),
                 child: Text(DateTime.now().toString().split(' ')[0]),
               ),
               IconButton(
-                onPressed: () {
-                  tarotDialog(
-                    context: context,
-                    widget: TarotAlert(id: todayTarot.id),
-                  );
-                },
+                onPressed: () => tarotDialog(context: context, widget: TarotAlert(id: todayTarot.id)),
                 icon: const Icon(Icons.info_outline),
               ),
             ],
           ),
           const SizedBox(height: 10),
-          Text(
-            todayTarot.name,
-            style: const TextStyle(fontSize: 30),
-          ),
+          Text(todayTarot.name, style: const TextStyle(fontSize: 30)),
           Stack(
             children: <Widget>[
-              Positioned(
-                right: 0,
-                top: 0,
-                child: getFeelingIcon(feeling: feeling),
-              ),
+              Positioned(right: 0, top: 0, child: getFeelingIcon(feeling: feeling)),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
@@ -206,11 +181,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               style: const TextStyle(color: Colors.yellowAccent),
             ),
           ),
-          Container(
-            padding: const EdgeInsets.all(10),
-            alignment: Alignment.topLeft,
-            child: Text(todayTarot.msg),
-          ),
+          Container(padding: const EdgeInsets.all(10), alignment: Alignment.topLeft, child: Text(todayTarot.msg)),
           Container(padding: const EdgeInsets.all(10), child: Text(todayTarot.msg2)),
           Container(padding: const EdgeInsets.all(10), child: Text(todayTarot.msg3)),
         ],
@@ -236,5 +207,32 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       default:
         return Container();
     }
+  }
+
+  ///
+  Widget dispDrawer(BuildContext context) {
+    final AsyncValue<AllTarotState> allTarotState = ref.watch(allTarotProvider);
+
+    final List<Widget> list = <Widget>[];
+
+    allTarotState.value?.tarotList.forEach((TarotModel element) => list.add(TarotCard(tarotModel: element)));
+
+    return Drawer(
+      backgroundColor: Colors.black.withOpacity(0.2),
+      child: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.only(right: 10),
+          decoration: BoxDecoration(
+            border: Border(right: BorderSide(color: Colors.yellowAccent.withOpacity(0.5), width: 5)),
+          ),
+          child: Column(
+            children: <Widget>[
+              const SizedBox(height: 100),
+              Column(children: list),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

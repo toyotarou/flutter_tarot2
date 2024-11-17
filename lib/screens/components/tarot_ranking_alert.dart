@@ -27,12 +27,7 @@ class _TarotRankingAlertState extends ConsumerState<TarotRankingAlert> {
 
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: SafeArea(
-          child: Column(
-        children: <Widget>[
-          Expanded(child: displayRankingCount()),
-        ],
-      )),
+      body: SafeArea(child: displayRankingCount()),
     );
   }
 
@@ -41,8 +36,7 @@ class _TarotRankingAlertState extends ConsumerState<TarotRankingAlert> {
     historyRankingCountMap = <int, List<String>>{};
 
     final AsyncValue<HistoryState> historyState = ref.watch(historyProvider);
-    final Map<String, List<HistoryModel>>? historyRankingMap =
-        historyState.value?.historyRankingMap;
+    final Map<String, List<HistoryModel>>? historyRankingMap = historyState.value?.historyRankingMap;
 
     if (historyRankingMap != null) {
       final Map<int, List<String>> map = <int, List<String>>{};
@@ -55,8 +49,7 @@ class _TarotRankingAlertState extends ConsumerState<TarotRankingAlert> {
         }
       });
 
-      historyRankingMap.forEach((String key, List<HistoryModel> value) =>
-          map[value.length]?.add(key));
+      historyRankingMap.forEach((String key, List<HistoryModel> value) => map[value.length]?.add(key));
 
       historyRankingCountMap = map;
     }
@@ -87,9 +80,7 @@ class _TarotRankingAlertState extends ConsumerState<TarotRankingAlert> {
 
               qt = (reverse == '0') ? 0 : 2;
 
-              image = (tarot.image == '')
-                  ? ''
-                  : 'http://toyohide.work/BrainLog/tarotcards/${tarot.image}.jpg';
+              image = (tarot.image == '') ? '' : 'http://toyohide.work/BrainLog/tarotcards/${tarot.image}.jpg';
 
               list.add(
                 Card(
@@ -98,34 +89,18 @@ class _TarotRankingAlertState extends ConsumerState<TarotRankingAlert> {
                     leading: (keepCount != element)
                         ? CircleAvatar(
                             radius: 10,
-                            backgroundColor:
-                                Colors.orangeAccent.withOpacity(0.3),
-                            child: Text(
-                              element.toString(),
-                              style: const TextStyle(fontSize: 12),
-                            ),
+                            backgroundColor: Colors.orangeAccent.withOpacity(0.3),
+                            child: Text(element.toString(), style: const TextStyle(fontSize: 12)),
                           )
                         : Container(width: 10),
                     trailing: Column(
                       children: <Widget>[
                         GestureDetector(
-                          onTap: () {
-                            tarotDialog(
-                              context: context,
-                              widget: TarotAlert(id: int.parse(id)),
-                            );
-                          },
+                          onTap: () => tarotDialog(context: context, widget: TarotAlert(id: int.parse(id))),
                           child: const Icon(Icons.info_outline),
                         ),
                         const SizedBox(height: 10),
-                        CircleAvatar(
-                          radius: 10,
-                          backgroundColor: Colors.orangeAccent.withOpacity(0.3),
-                          child: Text(
-                            id,
-                            style: const TextStyle(fontSize: 12),
-                          ),
-                        ),
+                        Text(id, style: const TextStyle(fontSize: 12, color: Colors.grey)),
                       ],
                     ),
                     title: Row(
@@ -133,10 +108,7 @@ class _TarotRankingAlertState extends ConsumerState<TarotRankingAlert> {
                       children: <Widget>[
                         SizedBox(
                           width: 40,
-                          child: RotatedBox(
-                            quarterTurns: qt,
-                            child: Image.network(image),
-                          ),
+                          child: RotatedBox(quarterTurns: qt, child: Image.network(image)),
                         ),
                         const SizedBox(width: 20),
                         Expanded(
@@ -145,8 +117,7 @@ class _TarotRankingAlertState extends ConsumerState<TarotRankingAlert> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text(tarot.name,
-                                    style: const TextStyle(fontSize: 16)),
+                                Text(tarot.name, style: const TextStyle(fontSize: 16)),
                                 Text((reverse == '0') ? 'just' : 'reverse'),
                                 Text(tarot.prof1),
                               ],
