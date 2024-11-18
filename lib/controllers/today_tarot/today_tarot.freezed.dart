@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$TodayTarotState {
   TodayTarotModel? get todayTarot => throw _privateConstructorUsedError;
+  int get selectedFeeling => throw _privateConstructorUsedError;
 
   /// Create a copy of TodayTarotState
   /// with the given fields replaced by the non-null parameter values.
@@ -31,7 +32,7 @@ abstract class $TodayTarotStateCopyWith<$Res> {
           TodayTarotState value, $Res Function(TodayTarotState) then) =
       _$TodayTarotStateCopyWithImpl<$Res, TodayTarotState>;
   @useResult
-  $Res call({TodayTarotModel? todayTarot});
+  $Res call({TodayTarotModel? todayTarot, int selectedFeeling});
 }
 
 /// @nodoc
@@ -50,12 +51,17 @@ class _$TodayTarotStateCopyWithImpl<$Res, $Val extends TodayTarotState>
   @override
   $Res call({
     Object? todayTarot = freezed,
+    Object? selectedFeeling = null,
   }) {
     return _then(_value.copyWith(
       todayTarot: freezed == todayTarot
           ? _value.todayTarot
           : todayTarot // ignore: cast_nullable_to_non_nullable
               as TodayTarotModel?,
+      selectedFeeling: null == selectedFeeling
+          ? _value.selectedFeeling
+          : selectedFeeling // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -68,7 +74,7 @@ abstract class _$$TodayTarotStateImplCopyWith<$Res>
       __$$TodayTarotStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({TodayTarotModel? todayTarot});
+  $Res call({TodayTarotModel? todayTarot, int selectedFeeling});
 }
 
 /// @nodoc
@@ -85,12 +91,17 @@ class __$$TodayTarotStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? todayTarot = freezed,
+    Object? selectedFeeling = null,
   }) {
     return _then(_$TodayTarotStateImpl(
       todayTarot: freezed == todayTarot
           ? _value.todayTarot
           : todayTarot // ignore: cast_nullable_to_non_nullable
               as TodayTarotModel?,
+      selectedFeeling: null == selectedFeeling
+          ? _value.selectedFeeling
+          : selectedFeeling // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -98,14 +109,17 @@ class __$$TodayTarotStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$TodayTarotStateImpl implements _TodayTarotState {
-  const _$TodayTarotStateImpl({this.todayTarot});
+  const _$TodayTarotStateImpl({this.todayTarot, this.selectedFeeling = 0});
 
   @override
   final TodayTarotModel? todayTarot;
+  @override
+  @JsonKey()
+  final int selectedFeeling;
 
   @override
   String toString() {
-    return 'TodayTarotState(todayTarot: $todayTarot)';
+    return 'TodayTarotState(todayTarot: $todayTarot, selectedFeeling: $selectedFeeling)';
   }
 
   @override
@@ -114,11 +128,13 @@ class _$TodayTarotStateImpl implements _TodayTarotState {
         (other.runtimeType == runtimeType &&
             other is _$TodayTarotStateImpl &&
             (identical(other.todayTarot, todayTarot) ||
-                other.todayTarot == todayTarot));
+                other.todayTarot == todayTarot) &&
+            (identical(other.selectedFeeling, selectedFeeling) ||
+                other.selectedFeeling == selectedFeeling));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, todayTarot);
+  int get hashCode => Object.hash(runtimeType, todayTarot, selectedFeeling);
 
   /// Create a copy of TodayTarotState
   /// with the given fields replaced by the non-null parameter values.
@@ -131,11 +147,14 @@ class _$TodayTarotStateImpl implements _TodayTarotState {
 }
 
 abstract class _TodayTarotState implements TodayTarotState {
-  const factory _TodayTarotState({final TodayTarotModel? todayTarot}) =
-      _$TodayTarotStateImpl;
+  const factory _TodayTarotState(
+      {final TodayTarotModel? todayTarot,
+      final int selectedFeeling}) = _$TodayTarotStateImpl;
 
   @override
   TodayTarotModel? get todayTarot;
+  @override
+  int get selectedFeeling;
 
   /// Create a copy of TodayTarotState
   /// with the given fields replaced by the non-null parameter values.

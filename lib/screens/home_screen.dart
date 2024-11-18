@@ -27,6 +27,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void initState() {
     super.initState();
 
+    ref.read(allTarotProvider.notifier).getAllTarot();
+
     ref.read(todayTarotProvider.notifier).getTodayTarot();
   }
 
@@ -79,21 +81,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final TodayTarotModel? todayTarot =
         ref.watch(todayTarotProvider.select((TodayTarotState value) => value.todayTarot));
 
+    final int selectedFeeling = ref.watch(todayTarotProvider.select((TodayTarotState value) => value.selectedFeeling));
+
     if (todayTarot == null) {
       return Container();
     }
 
     int qt = 0;
     String image = '';
-
-    int feeling = 0;
-
-    switch (todayTarot.justReverse) {
-      case 'just':
-        feeling = todayTarot.feelingJust;
-      case 'reverse':
-        feeling = todayTarot.feelingReverse;
-    }
 
     qt = (todayTarot.justReverse == 'just') ? 0 : 2;
 
@@ -121,7 +116,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           Text(todayTarot.name, style: const TextStyle(fontSize: 30)),
           Stack(
             children: <Widget>[
-              Positioned(right: 0, top: 0, child: getFeelingIcon(feeling: feeling)),
+              Positioned(right: 0, top: 0, child: getFeelingIcon(feeling: selectedFeeling)),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
@@ -211,11 +206,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   ///
   Widget dispDrawer(BuildContext context) {
-    final AsyncValue<AllTarotState> allTarotState = ref.watch(allTarotProvider);
+    final AllTarotState allTarotState = ref.watch(allTarotProvider);
 
     final List<Widget> list = <Widget>[];
 
-    allTarotState.value?.tarotList.forEach((TarotModel element) => list.add(TarotCard(tarotModel: element)));
+    for (final TarotModel element in allTarotState.tarotList) {
+      list.add(TarotCard(tarotModel: element));
+    }
 
     return Drawer(
       backgroundColor: Colors.black.withOpacity(0.2),

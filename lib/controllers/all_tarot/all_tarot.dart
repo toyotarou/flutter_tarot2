@@ -17,8 +17,7 @@ class AllTarotState with _$AllTarotState {
   const factory AllTarotState({
     @Default(<TarotModel>[]) List<TarotModel> tarotList,
     @Default(<int, TarotModel>{}) Map<int, TarotModel> tarotMap,
-    @Default(<String, List<TarotModel>>{})
-    Map<String, List<TarotModel>> tarotCategoryMap,
+    @Default(<String, List<TarotModel>>{}) Map<String, List<TarotModel>> tarotCategoryMap,
   }) = _AllTarotState;
 }
 
@@ -28,18 +27,18 @@ class AllTarot extends _$AllTarot {
 
   ///
   @override
-  Future<AllTarotState> build() async => getAllTarot();
+  AllTarotState build() => const AllTarotState();
 
   ///
-  Future<AllTarotState> getAllTarot() async {
+  Future<void> getAllTarot() async {
     final HttpClient client = ref.read(httpClientProvider);
-
-    final List<TarotModel> list = <TarotModel>[];
-    final Map<int, TarotModel> map = <int, TarotModel>{};
-    final Map<String, List<TarotModel>> map2 = <String, List<TarotModel>>{};
 
     // ignore: always_specify_types
     await client.post(path: APIPath.getAllTarot).then((value) {
+      final List<TarotModel> list = <TarotModel>[];
+      final Map<int, TarotModel> map = <int, TarotModel>{};
+      final Map<String, List<TarotModel>> map2 = <String, List<TarotModel>>{};
+
       // ignore: avoid_dynamic_calls
       for (int i = 0; i < value['data'].length.toString().toInt(); i++) {
         final TarotModel val =
@@ -69,12 +68,11 @@ class AllTarot extends _$AllTarot {
         }
       }
 
+      state = state.copyWith(tarotList: list, tarotMap: map, tarotCategoryMap: map2);
+
       // ignore: always_specify_types
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });
-
-    return AllTarotState(
-        tarotList: list, tarotMap: map, tarotCategoryMap: map2);
   }
 }
