@@ -8,6 +8,7 @@ import '../models/today_tarot_model.dart';
 import '../utility/utility.dart';
 import 'components/parts/drawer_card.dart';
 import 'components/tarot_alert.dart';
+import 'components/tarot_list_alert.dart';
 import 'components/tarot_ranking_alert.dart';
 import 'components/tarot_recently_alert.dart';
 import 'parts/_tarot_dialog.dart';
@@ -55,6 +56,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ],
         ),
         actions: <Widget>[
+          IconButton(
+            onPressed: () => tarotDialog(context: context, widget: TarotListAlert()),
+            icon: const Icon(Icons.list),
+          ),
           IconButton(
             onPressed: () => tarotDialog(context: context, widget: TarotRecentlyAlert()),
             icon: const Icon(Icons.pages_outlined),
