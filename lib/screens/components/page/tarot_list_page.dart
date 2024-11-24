@@ -6,6 +6,8 @@ import '../../../controllers/history/history.dart';
 import '../../../extensions/extensions.dart';
 import '../../../models/history_model.dart';
 import '../../../models/tarot_model.dart';
+import '../../parts/_tarot_dialog.dart';
+import '../tarot_recently_alert.dart';
 
 class TarotListPage extends ConsumerStatefulWidget {
   const TarotListPage({super.key, required this.date});
@@ -105,6 +107,28 @@ class _TarotListPageState extends ConsumerState<TarotListPage> {
                                   ),
                                   Text(
                                     (element.reverse == '0') ? tarotMap[element.id]!.msgJ : tarotMap[element.id]!.msgR,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Container(),
+                                      GestureDetector(
+                                        onTap: () {
+                                          tarotDialog(
+                                            context: context,
+                                            widget: TarotRecentlyAlert(
+                                              date: DateTime.parse(
+                                                '${element.year}-${element.month}-${element.day} 00:00:00',
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: Icon(
+                                          Icons.pages_outlined,
+                                          color: Colors.white.withOpacity(0.3),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),

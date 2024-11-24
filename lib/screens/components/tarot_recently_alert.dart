@@ -14,7 +14,9 @@ class TabInfo {
 }
 
 class TarotRecentlyAlert extends ConsumerWidget {
-  TarotRecentlyAlert({super.key});
+  TarotRecentlyAlert({super.key, this.date});
+
+  final DateTime? date;
 
   List<TabInfo> tabs = <TabInfo>[];
 
@@ -56,8 +58,10 @@ class TarotRecentlyAlert extends ConsumerWidget {
   void makeTab() {
     tabs = <TabInfo>[];
 
+    final DateTime baseDate = (date != null) ? date! : DateTime.now();
+
     for (int i = 0; i < 7; i++) {
-      final DateTime day = DateTime.now().add(Duration(days: i * -1));
+      final DateTime day = baseDate.add(Duration(days: i * -1));
 
       final String youbi = day.youbiStr.substring(0, 3);
 
