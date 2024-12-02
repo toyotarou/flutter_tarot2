@@ -11,6 +11,7 @@ import 'components/tarot_alert.dart';
 import 'components/tarot_list_alert.dart';
 import 'components/tarot_ranking_alert.dart';
 import 'components/tarot_recently_alert.dart';
+import 'components/tarot_score_graph_alert.dart';
 import 'parts/_tarot_dialog.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -57,7 +58,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ),
         actions: <Widget>[
           IconButton(
-            onPressed: () => tarotDialog(context: context, widget: TarotListAlert()),
+              onPressed: () => tarotDialog(context: context, widget: const TarotScoreGraphAlert()),
+              icon: const Icon(Icons.graphic_eq)),
+          IconButton(
+            onPressed: () => tarotDialog(context: context, widget: const TarotListAlert()),
             icon: const Icon(Icons.list),
           ),
           IconButton(

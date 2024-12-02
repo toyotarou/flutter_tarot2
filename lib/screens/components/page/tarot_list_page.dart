@@ -19,6 +19,7 @@ class TarotListPage extends ConsumerStatefulWidget {
 }
 
 class _TarotListPageState extends ConsumerState<TarotListPage> {
+  ///
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +27,7 @@ class _TarotListPageState extends ConsumerState<TarotListPage> {
       body: SafeArea(
           child: Column(
         children: <Widget>[
-          const SizedBox(height: 20),
+          Container(width: context.screenSize.width),
           Expanded(child: displayTarotList()),
         ],
       )),
@@ -42,6 +43,8 @@ class _TarotListPageState extends ConsumerState<TarotListPage> {
             final AllTarotState allTarotState = ref.watch(allTarotProvider);
             final Map<int, TarotModel> tarotMap = allTarotState.tarotMap;
 
+            final List<int> scoreList = <int>[];
+
             for (final HistoryModel element in value.historyList) {
               if (widget.date.yyyymm == '${element.year}-${element.month}') {
                 if (tarotMap[element.id] != null) {
@@ -55,9 +58,12 @@ class _TarotListPageState extends ConsumerState<TarotListPage> {
                   switch (element.reverse) {
                     case '0':
                       feeling = tarotMap[element.id]!.feelJ;
+
                     case '1':
                       feeling = tarotMap[element.id]!.feelR;
                   }
+
+                  scoreList.add((feeling == 9) ? 100 : 0);
 
                   image = (tarotMap[element.id]!.image == '')
                       ? ''
@@ -142,7 +148,27 @@ class _TarotListPageState extends ConsumerState<TarotListPage> {
               }
             }
 
-            return SingleChildScrollView(child: Column(children: list));
+            int score = 0;
+            for (final int element in scoreList) {
+              score += element;
+            }
+
+            return SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  const SizedBox(height: 10),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[Container(), Text((score / scoreList.length).toStringAsFixed(2))],
+                    ),
+                  ),
+                  Divider(color: Colors.white.withOpacity(0.5), thickness: 5),
+                  Column(children: list),
+                ],
+              ),
+            );
           },
           error: (Object error, StackTrace stackTrace) => const Center(child: CircularProgressIndicator()),
           loading: () => const Center(child: CircularProgressIndicator()),

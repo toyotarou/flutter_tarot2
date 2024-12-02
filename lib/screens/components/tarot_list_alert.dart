@@ -3,7 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../controllers/history/history.dart';
 import '../../extensions/extensions.dart';
+import '../../models/history_model.dart';
 import 'page/tarot_list_page.dart';
 
 class TabInfo {
@@ -13,14 +15,20 @@ class TabInfo {
   Widget widget;
 }
 
-class TarotListAlert extends ConsumerWidget {
-  TarotListAlert({super.key});
+@immutable
+class TarotListAlert extends ConsumerStatefulWidget {
+  const TarotListAlert({super.key});
 
+  @override
+  ConsumerState<TarotListAlert> createState() => _TarotListAlertState();
+}
+
+class _TarotListAlertState extends ConsumerState<TarotListAlert> {
   List<TabInfo> tabs = <TabInfo>[];
 
   ///
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     makeTab();
 
     return DefaultTabController(
@@ -54,6 +62,15 @@ class TarotListAlert extends ConsumerWidget {
 
   ///
   void makeTab() {
+    DateTime historyFirstDateTime = DateTime.now();
+
+    if (ref.watch(historyProvider).value != null) {
+      final List<HistoryModel> historyList = ref.watch(historyProvider).value!.historyList;
+
+      historyFirstDateTime =
+          DateTime(historyList.first.year.toInt(), historyList.first.month.toInt(), historyList.first.day.toInt());
+    }
+
     tabs = <TabInfo>[];
 
     final List<String> list = <String>[];
@@ -65,8 +82,10 @@ class TarotListAlert extends ConsumerWidget {
     for (int i = 0; i <= diff; i++) {
       final DateTime genDate = firstDate.add(Duration(days: i));
 
-      if (genDate.day == 1) {
-        list.add(genDate.yyyymm);
+      if (genDate.isAfter(historyFirstDateTime)) {
+        if (!list.contains(genDate.yyyymm)) {
+          list.add(genDate.yyyymm);
+        }
       }
     }
 
